@@ -19,3 +19,7 @@ eksctl_Windows_amd64.zip
 
 # Variable files
 *.tfvars
+
+# Credentials
+*.pem
+*.key
