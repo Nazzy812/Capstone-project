@@ -1,0 +1,21 @@
+# Terraform cache and providers
+.terraform/
+**/.terraform/
+terraform/.terraform/
+
+# State files
+*.tfstate
+*.tfstate.backup
+
+# Generated files
+*.zip
+grading.json
+
+# Temp/junk files
+*.sh
+alb-iam-policy.json
+eksctl_Windows_amd64.zip
+"108*"
+
+# Variable files
+*.tfvars
