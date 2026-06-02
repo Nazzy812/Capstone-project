@@ -9,7 +9,6 @@ terraform/.terraform/
 
 # Generated files
 *.zip
-grading.json
 
 # Temp/junk files
 *.sh
