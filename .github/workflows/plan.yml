@@ -1,6 +1,9 @@
 name: Terraform Plan
+
 on:
   pull_request:
+    branches:
+      - main
     paths:
       - "terraform/**"
 
@@ -30,17 +33,20 @@ jobs:
         terraform plan \
           -var="student_id=${{ secrets.TF_STUDENT_ID }}" \
           -no-color 2>&1 | tee plan_output.txt
-        echo "plan_output<<EOF" >> $GITHUB_OUTPUT
-        cat plan_output.txt >> $GITHUB_OUTPUT
-        echo "EOF" >> $GITHUB_OUTPUT
+        echo "PLAN_OUTPUT<<EOF" >> $GITHUB_ENV
+        cat plan_output.txt >> $GITHUB_ENV
+        echo "EOF" >> $GITHUB_ENV
 
     - name: Post Plan as PR Comment
       uses: actions/github-script@v7
+      env:
+        PLAN: ${{ env.PLAN_OUTPUT }}
       with:
         script: |
+          const plan = process.env.PLAN || 'No plan output';
           github.rest.issues.createComment({
             issue_number: context.issue.number,
             owner: context.repo.owner,
             repo: context.repo.repo,
-            body: '## Terraform Plan Output\n```\n${{ steps.plan.outputs.plan_output }}\n```'
+            body: '## Terraform Plan Output\n```\n' + plan + '\n```'
           })
